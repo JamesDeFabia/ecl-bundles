@@ -1,4 +1,4 @@
-ecl-bundles
+Finance Library
 ===========
 
 This folder contains the Finance Library Bundle code and documentation on usage. 
@@ -20,7 +20,7 @@ For example:
 ecl bundle install Finance
 
 
-For more information about the bundle commands in the ecl command line tool, see:
+For more information about the bundle commands in the ecl command line tool, see the `HPCC Client Tools Manual`_
 
 .. _`HPCC Client Tools`: http://cdn.hpccsystems.com/releases/CE-Candidate-4.0.0/docs/HPCCClientTools-4.0.0-9.pdf
 
