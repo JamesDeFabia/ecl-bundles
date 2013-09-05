@@ -1,10 +1,10 @@
 IMPORT STD;
 
-EXPORT Finance := MODULE
+EXPORT Finance := MODULE, FORWARD
 
                 EXPORT Bundle := MODULE(Std.BundleBase)
                                 EXPORT Name := 'Finance';
-                                EXPORT Description := 'Generally useful Finance function';
+                                EXPORT Description := 'Generally useful Finance functions';
                                 EXPORT Authors := ['Jim DeFabia','Richard Taylor','Bob Foreman'];
                                 EXPORT License := 'http://www.apache.org/licenses/LICENSE-2.0';
                                 EXPORT Copyright := 'Copyright (C) 2013 HPCC Systems';
@@ -16,7 +16,7 @@ EXPORT Finance := MODULE
 /**
 * Returns the payment amount per loan period.
 * 
- * @param LoanAmt       The total loan amount.
+* @param LoanAmt       The total loan amount.
 * @param IntRate       The yearly interest rate charged.
 * @param Term          The number of years in the loan term.
 * @param PmtsPerYr     The number of payments paid per year. If omitted, the default is 12
@@ -33,7 +33,7 @@ EXPORT Finance := MODULE
 /**
 * Returns an amortization table.
 * 
- * @param LoanAmt       The total loan amount.
+* @param LoanAmt       The total loan amount.
 * @param IntRate       The yearly interest rate charged.
 * @param Term          The number of years in the loan term.
 * @param PmtsPerYr     The number of payments paid per year. If omitted, the default is 12
@@ -50,14 +50,14 @@ EXPORT Finance := MODULE
                                                 UDECIMAL9_2  Interest;
                                                 UDECIMAL9_2  EndingPrincipal;
                                 END;
-                                StartDS := DATASET([{0,0,0,0,0}],OutRec);
-
-                                OutRec XF1(OutRec L, INTEGER C) := TRANSFORM
+                            
+                                OutRec XF1(INTEGER C) := TRANSFORM
                                                 SELF.PeriodNum := C;
                                                 SELF.Payment   := PaymentAmt;
                                                 SELF := [];
                                 END;
-                                ds := NORMALIZE(StartDS,Term*PmtsPerYr,XF1(LEFT,COUNTER));
+                            
+                                ds := DATASET(Term*PmtsPerYr,XF1(COUNTER));
 
                                 OutRec XF2(OutRec L, OutRec R) := TRANSFORM
                                                 SELF.Principal       := IF(L.Principal = 0,LoanAmt,L.EndingPrincipal);
@@ -72,7 +72,7 @@ EXPORT Finance := MODULE
 /**
 * Returns a simple interest value.
 * 
- * @param Principal     Starting amount.
+* @param Principal     Starting amount.
 * @param IntRate       The interest rate charged.
 * @return              The principal with interest added.
 */
@@ -84,7 +84,7 @@ EXPORT Finance := MODULE
 /**
 * Returns a compound interest table.
 * 
- * @param Principal     Starting amount.
+* @param Principal     Starting amount.
 * @param IntRate       The yearly interest rate charged.
 * @param Term          The number of years to calculate.
 * @param Periods       The number of compounding periods per year. If omitted, the default is 12
@@ -97,13 +97,13 @@ EXPORT Finance := MODULE
                                                 UDECIMAL9_2  Interest;
                                                 UDECIMAL9_2  NewPrincipal;
                                 END;
-                                StartDS := DATASET([{0,0,0,0}],OutRec);
-
-                                OutRec XF1(OutRec L, INTEGER C) := TRANSFORM
+                            
+                                OutRec XF1(INTEGER C) := TRANSFORM
                                                 SELF.PeriodNum := C;
                                                 SELF := [];
                                 END;
-                                ds := NORMALIZE(StartDS,Term*Periods,XF1(LEFT,COUNTER));
+                            
+                                ds := DATASET(Term*Periods,XF1(COUNTER));
 
                                 OutRec XF2(OutRec L, OutRec R) := TRANSFORM
                                                 SELF.Principal       := IF(L.Principal = 0,Principal,L.NewPrincipal);
@@ -119,13 +119,13 @@ EXPORT Finance := MODULE
 /**
 * Returns the present value of a future amount, given .
 * 
- * @param FutureVal     The Future value to achieve.
+* @param FutureVal     The Future value to achieve.
 * @param IntRate       The interest rate per period.
 * @param Periods       The total number of periods.
 * @return              The present value.
 */
                 EXPORT PresentValue(UDECIMAL9_2 FutureVal, REAL4 IntRate, UNSIGNED2 Periods) := FUNCTION
-    s1 := POWER(1+(IntRate/100),periods);
+                                s1 := POWER(1+(IntRate/100),periods);
                                 s2 := 1 / s1;
                                 RETURN ROUND(FutureVal * s2, 2);
                 END;
@@ -133,14 +133,14 @@ EXPORT Finance := MODULE
 /**
 * Returns the net present value of a future amount, given .
 * 
- * @param FutureVal     The Future value to achieve.
+* @param FutureVal     The Future value to achieve.
 * @param IntRate       The interest rate per period.
 * @param Periods       The total number of periods left.
 * @param OrigVal       The original inverstment amount.
 * @return              The present value.
 */
                 EXPORT NetPresentValue(UDECIMAL9_2 FutureVal, REAL4 IntRate, UNSIGNED2 Periods, UDECIMAL9_2 OrigVal) := FUNCTION
-    s1 := PresentValue(FutureVal, IntRate, Periods);
+                                s1 := PresentValue(FutureVal, IntRate, Periods);
                                 RETURN ROUND(s1 - OrigVal, 2);
                 END;
 
@@ -148,7 +148,7 @@ EXPORT Finance := MODULE
 /**
 * Returns the future value of a present amount, after a specific number of periods.
 * 
- * @param Principal     Present amount.
+* @param Principal     Present amount.
 * @param IntRate       The yearly interest rate.
 * @param Term          The number of years to calculate.
 * @param Periods       The number of compounding periods per year. If omitted, the default is 12
