@@ -187,45 +187,45 @@ SHARED Period    := 13;     // Single Period to return
 // how a loan's principal amount decreases over time.
 
 SHARED a := Finance.Amortize(LoanAmt,IntRate,Term) ;
-EXPORT Result1 := OUTPUT (a);                                                       //Result 1
+EXPORT Result1 := OUTPUT (a, NAMED('Amortize'));                                                       //Result 1
 
 
 //returns 13th row from the amortization schedule
 // Use this to see a specific payment (Period)
-EXPORT Result2 := OUTPUT (a[Period]);                                               //Result 2
+EXPORT Result2 := OUTPUT (a[Period],NAMED('AmortizePeriod'));                                               //Result 2
 
 
 //returns the payment amount for the loan period
 
 SHARED b := Finance.Payment(LoanAmt,IntRate,Term); 
-EXPORT Result3 := OUTPUT(b);                                                        //Result 3
+EXPORT Result3 := OUTPUT(b,NAMED('Payment'));                                                        //Result 3
 
 
 
 // Calculates simple interest
 // Simple interest is calculated on remaining principal amount
 SHARED c := Finance.SimpleInterest(LoanAmt,IntRate);
-EXPORT Result4 := OUTPUT(c);                                                         //Result 4
+EXPORT Result4 := OUTPUT(c,NAMED('SimpleInterest'));                                                         //Result 4
 
 
 // returns table of compounding interest
 // interest accumulates and new interest is calculated on 
 // principal amount + previous interest earned
 SHARED d :=  Finance.CompoundInterest(Principal,IntRate,Term);
-EXPORT Result5 := OUTPUT (d);                                                         //Result 5
+EXPORT Result5 := OUTPUT (d,NAMED('CompoundInterest'));                                                         //Result 5
 //returns 13th row from the compound interest table
-EXPORT Result6 := OUTPUT (d[Period]);                                                 //Result 6
+EXPORT Result6 := OUTPUT (d[Period],NAMED('CompoundInterestPeriod'));                                                 //Result 6
 
 
 // Returns the present value of a future amount
 SHARED e :=  Finance.PresentValue(FutureVal,IntRate,Periods);
-EXPORT Result7 := OUTPUT(e);                                                          //Result 7
+EXPORT Result7 := OUTPUT(e,NAMED('PresentValue'));                                                          //Result 7
 
 
 // Returns the net present value of a future amount
 
 SHARED f :=  Finance.NetPresentValue(FutureVal,IntRate,Periods,OrigVal);
-EXPORT Result8 := OUTPUT(f);                                                          //Result 8
+EXPORT Result8 := OUTPUT(f,NAMED('NetPresentValue'));                                                          //Result 8
                     
 
 
@@ -233,7 +233,7 @@ EXPORT Result8 := OUTPUT(f);                                                    
 // Returns the future value of a present amount after a specific number of periods.
 
 SHARED g := Finance.FutureValue(Principal,IntRate,Term,Periods,Period);
-EXPORT Result9 := OUTPUT(g);                                                          //Result 9
+EXPORT Result9 := OUTPUT(g,NAMED('FutureValue'));                                                          //Result 9
 
 
   END;          
