@@ -77,7 +77,7 @@ EXPORT Finance := MODULE, FORWARD
 * @return              The principal with interest added.
 */
                 EXPORT SimpleInterest(UDECIMAL9_2 Principal, REAL4 IntRate) := FUNCTION
-    UDECIMAL9_2 Interest := Principal * (IntRate/100);
+                                UDECIMAL9_2 Interest := Principal * (IntRate/100);
                                 RETURN Principal + Interest;
                 END;
 
