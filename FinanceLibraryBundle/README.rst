@@ -12,7 +12,6 @@ and many other operations.
 Once you install the bundle, you can call these functions in a similar manner as the standard library functions. 
 This allows you to save time by calling a single function instead of writing code to do the calculations.  
 
-
 Install the individual bundle file or directory using the ecl command line options:
 
 For example:
