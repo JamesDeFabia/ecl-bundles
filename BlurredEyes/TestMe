@@ -1,0 +1,3 @@
+IMPORT std;
+
+Std.Str.ToUpperCase(inChar);
