@@ -10,7 +10,7 @@ EXPORT Bloom := MODULE,FORWARD
     EXPORT Version := '1.0.0';
   END;
 
-  /*
+  /**
    * Create a bloom filter. The parameters will determine the size of the hash table used and
    * the number of hashes required to give the answer. Expect at times up to 7 hashes and
    * consequently 7 lookups per key. If this number of lookups degrades performance, use
